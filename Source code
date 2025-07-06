@@ -1,0 +1,65 @@
+# projects_analysis.py
+
+# -----------------------------------------
+# Project Data Analysis 
+# Author: [Rajnish Kumar]
+# -----------------------------------------
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the CSV data
+df = pd.read_csv("projects.csv")
+
+# Display basic information
+print("First 5 rows of the dataset:")
+print(df.head())
+
+print("\nDataset Information:")
+print(df.info())
+
+print("\nStatistical Summary:")
+print(df.describe())
+
+# Check column names
+print("\nColumns in the dataset:")
+print(df.columns)
+
+# Check for missing values
+print("\nMissing values in each column:")
+print(df.isnull().sum())
+
+# Plot 1: Project Status Count
+plt.figure(figsize=(8, 5))
+df['Status'].value_counts().plot(kind='bar', color='skyblue')
+plt.title('Project Status Count')
+plt.xlabel('Status')
+plt.ylabel('Count')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig("project_status_count.png")
+plt.show()
+
+# Plot 2: Projects by Department
+plt.figure(figsize=(8, 5))
+df['Department'].value_counts().plot(kind='bar', color='orange')
+plt.title('Projects by Department')
+plt.xlabel('Department')
+plt.ylabel('Count')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig("projects_by_department.png")
+plt.show()
+
+# Plot 3: Stacked Bar Chart - Status by Department
+plt.figure(figsize=(12, 6))
+status_by_dept = df.groupby(['Department', 'Status']).size().unstack()
+status_by_dept.plot(kind='bar', stacked=True, colormap='Set3')
+plt.title('Project Status by Department')
+plt.xlabel('Department')
+plt.ylabel('Count')
+plt.xticks(rotation=45)
+plt.legend(title='Status')
+plt.tight_layout()
+plt.savefig("status_by_department.png")
+plt.show()
